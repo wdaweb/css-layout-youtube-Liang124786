@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Youtube</title>
+  <link rel="icon" href="./images/youtube_premium.svg" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    #header {
+      /* 固定表頭 */
+      position: fixed;
+      /* 固定在最上面 */
+      top: 0;
+      /* 寬度跟body一樣 */
+      width: 100%;
+      /* 內容並排 */
+      display: flex;
+      background: #ffffff;
+      /* 透過不使用height 給予高度 */
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      #menu_button {
+        /* 讓選單按鈕移動過去有背景 */
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        /* 讓裡面的漢堡置中 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #start {
+        /* 定位位置 */
+        padding-top: 10px;
+        padding-left: 15px;
+        /* 讓 menu 與圖片同排 */
+        display: flex;
+        /* 垂直置中對齊 */
+        align-items: center;
+
+        img {
+          /* 與漢堡推移距離 */
+          padding-left: 10px;
+          /* 設定youtubelogo大小 */
+          height: 30px;
+        }
+      }
+
+
+      #searchbar {
+        /* 不用position定位input位置 */
+        padding-left: 20%;
+        padding-top: 10px;
+        /* 總長寬度 */
+        width: 35%;
+        /* 內容並排 */
+        display: flex;
+
+        form {
+          /* 右邊沒邊線跟搜尋鈕貼再一起不突兀 */
+          border-right: 0;
+          /* 跟div一樣寬 */
+          width: 100%;
+        }
+
+        input {
+          /* 給類似input的邊線 */
+          border: 1px solid #c6c6c6;
+          /* 跟form一樣寬 100%邊線會延到按鈕*/
+          width: 99%;
+          /* 前面圓角後面尖角為了跟搜尋鈕貼 */
+          border-radius: 40px 0 0 40px;
+          /* 裡面placehoder字形設定 */
+          font-size: 1.2rem;
+          text-indent: 1rem;
+          /* input高度 */
+          line-height: 2.0rem;
+        }
+
+        input:focus {
+          /* 變成youtube藍色 */
+          border: 1px solid #1a73e8;
+          /* outline沒關會變成黑+藍 */
+          outline: none
+        }
+
+        #search_button {
+          /* 跟前面一樣邊框色 */
+          border: 1px solid #d3d3d3;
+          /* 類似yt按鈕顏色 */
+          background-color: #f8f8f8;
+          /* 右邊圓角 */
+          border-radius: 0 40px 40px 0;
+          /* 按鈕大小視覺能貼近搜尋框 */
+          width: 70px;
+          height: 36px;
+        }
+
+        #mic_button {
+          /* 按照youtube mic的icon設定 */
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          /* 垂直置中 */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* 無邊線 */
+          border: 0;
+          /* 跟左邊保持距離 */
+          margin-left: 15px;
+        }
+      }
+
+
+
+      #end {
+        /* 定位位置 */
+        padding-top: 10px;
+        padding-left: 25%;
+        /* 內容並排 */
+        display: flex;
+        /* 改變游標 */
+        cursor: pointer;
+
+        #vert {
+          /* 垂直置中 */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* 背景白色 */
+          background: #fff;
+          /* 無邊線 */
+          border: 0;
+        }
+
+        #login {
+          /* 內容垂直置中 */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* 設定寬度 */
+          width: 100px;
+          /* 背景白色 */
+          background: #fff;
+          /* 邊線類似yt */
+          border: 1px solid #d3d3d3;
+          /* 字體顏色 */
+          color: #1a73e8;
+          /* 邊角 */
+          border-radius: 40px;
+          /* 改變游標 */
+          cursor: pointer;
+        }
+
+        #login_text {
+          /* 字體大小 */
+          font-size: 20px;
+        }
+
+        #login:hover {
+          /* 背景變色 */
+          background-color: #e8f0fe;
+        }
+      }
+
+
+
+      /* 給header google font icon 固定的樣式 */
+      .material-symbols-outlined {
+        font-size: 28px;
+        cursor: pointer;
+      }
+
+      /* 按鈕變色 */
+      #search_button:hover,
+      #mic_button:hover,
+      #menu_button:hover {
+        background: #e9e5e5;
+      }
+    }
+
+    #select {
+      display: flex;
+      flex-grow: 1;
+      margin-top: 1%;
+
+      #menu {
+        /* 往下移動 */
+        margin-top: 2%;
+        /* 固定寬高 */
+        width: 13%;
+        /* 沒加入這條，滑鼠移開會初始化 */
+        height: 100vh;
+        /* 保持內容不移動 */
+        position: fixed;
+        /* 字體 */
+        font-family: Roboto, "Noto Sans TC", Arial, sans-serif;
+
+        /* 隱藏y滾軸 */
+        overflow-y: hidden;
+
+        ul {
+          /* 把li的點去掉 */
+          list-style: none;
+          /* 把ul預設padding-left更改 */
+          padding-left: 5px;
+
+          /* icon大小 */
+          .material-symbols-outlined {
+            font-size: 25px;
+          }
+
+          /* icon後面自大小 */
+          span {
+            font-size: 15px;
+          }
+
+          hr {
+            border: 1px solid #e5e5e5;
+          }
+
+          li {
+            /* 內容並排 */
+            display: flex;
+            /* 中間間距 */
+            gap: 5%;
+            /* 置中 */
+            align-items: center;
+            /* 往左移動 */
+            margin-left: 5px;
+            /* 改變游標 */
+            cursor: pointer;
+            /* 拉長按鈕高度 */
+            line-height: 40px;
+            /* 邊角修改 */
+            border-radius: 10px;
+            /* 不用margin往右移動 */
+            text-indent: 10px;
+          }
+
+          li:hover {
+            /* 移過去變色 */
+            background: #d0d0d0;
+          }
+
+          .text {
+            /* 字體設定 */
+            font-size: 12px;
+            text-indent: 0;
+            /* 讓字體有寬度 */
+            display: inline-block;
+            width: 80%;
+            /* 調整間距 */
+            margin-left: 15px;
+            margin-bottom: 5px;
+          }
+        }
+
+        #menu_login {
+          /* 內容垂直置中 */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* 設定寬度 */
+          width: 80px;
+          /* 背景白色 */
+          background: #fff;
+          /* 邊線類似yt */
+          border: 1px solid #d3d3d3;
+          /* 字體顏色 */
+          color: #1a73e8;
+          /* 邊角 */
+          border-radius: 40px;
+          /* 改變游標 */
+          cursor: pointer;
+          /* 登入按鈕位置 */
+          margin-top: 15px;
+          margin-left: 15px;
+          margin-bottom: 15px;
+        }
+
+        #menu_login:hover {
+          /* 背景變色 */
+          background-color: #e8f0fe;
+        }
+      }
+
+      #menu:hover {
+        /* 產生y滾軸 */
+        overflow-y: auto;
+      }
+
+      #container {
+        /* 跟上面保持距離 */
+        margin-top: 2.2%;
+        /* 往右推保留空間給#menu */
+        margin-left: 13%;
+
+        #list {
+          /* 固定位置 */
+          position: fixed;
+          /* 並排按鈕 */
+          display: flex;
+          /* 寬度拉滿，高度設定 */
+          width: 100%;
+          /* 調整高度位置 */
+          padding: 15px 40px;
+          /* 設定背景 */
+          background: #ffffff;
+
+          button {
+            /* 往右推15px讓按鈕之間產生間隔 */
+            gap: 15px;
+            /* 改變游標 */
+            cursor: pointer;
+            /* 無邊線 */
+            border: 0;
+            /* 邊角圓弧 */
+            border-radius: 8px;
+            /* 透過改字型大小變更按鈕大小 */
+            font-size: 15px;
+            /* 讓按鈕和文字產生間距 */
+            padding: 5px 10px;
+          }
+
+          button:focus {
+            /* 點選後變成黑底白字 */
+            background: #000;
+            color: #fff;
+          }
+        }
+
+        .content {
+          /* 內容並排 */
+          display: flex;
+          /* 設定margin排版 */
+          margin-top: 70px;
+          margin-left: 40px;
+          /* 一行滿了往下一行排 */
+          flex-wrap: wrap;
+          /* 設定子元素間的上下左右間距 */
+          gap: 30px;
+
+          .short-row {
+            /* 設定寬度直接一排 */
+            width: 100%;
+            /* 設定彈性盒，垂直排列 */
+            display: flex;
+            flex-direction: column;
+
+            /* 保持上下間距 */
+            margin: 20px 0;
+
+            h2 {
+              margin: 10px 0;
+              font-size: 20px;
+              font-weight: bold;
+              display: flex;
+              gap: 10px;
+            }
+
+            .short_img {
+              display: flex;
+              /* 均勻分配空間 */
+              justify-content: space-between;
+              gap: 12px;
+              flex-wrap: nowrap;
+
+              img {
+                /* 圖片保持寬度 */
+                width: 19%;
+                /* 設定寬高 */
+                aspect-ratio: 9 / 16;
+                /* 邊角 */
+                border-radius: 12px;
+              }
+            }
+          }
+
+          .card {
+            /* 配合gap*/
+            flex: 1 1 32%;
+            display: flex;
+            flex-direction: column;
+
+            .channel-picture {
+              /* 固定圖片大小 */
+              width: 100%;
+              /* 設定寬高比16:9 */
+              aspect-ratio: 16 / 9;
+              /* 設定邊角 */
+              border-radius: 20px;
+              /* 往下推排版 */
+              margin-bottom: 5px;
+            }
+
+            .video-info {
+              /* 讓小圖和文字並排 */
+              display: flex;
+              gap: 30px;
+
+              .channel-icon {
+                /* 小圖寬高 */
+                width: 30px;
+                height: 30px;
+                /* 圓形 */
+                border-radius: 50%;
+                /* 間距排版 */
+                margin-top: 10px;
+                margin-left: 20px;
+              }
+
+              .text-info {
+                .title {
+                  /* 間距排版 */
+                  margin: 5px 0;
+                  /* 字體大小 */
+                  font-size: 18px;
+                }
+
+                .channel,
+                .visited {
+                  /* 間距排版 */
+                  margin: 0 0 5px 0;
+                  /* 字體大小 */
+                  font-size: 16px;
+                }
+              }
+            }
+          }
+
+          .card:hover {
+            border: 0;
+            background: rgba(0, 0, 0, 0.1);
+            box-shadow:
+              0 4px 10px 2px rgba(0, 0, 0, 0.1),
+              0 6px 20px 4px rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="header">
+    <div id="start">
+      <div id="menu_button">
+        <span class="material-symbols-outlined">menu</span>
+      </div>
+      <a href="./index.html">
+        <img src="./images/youtubelogo.png" alt="Youtube首頁" title="Youtube首頁">
+      </a>
+    </div>
+    <div id="searchbar">
+      <form>
+        <input type="text" placeholder="搜尋">
+      </form>
+      <button id="search_button" title="搜尋">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+      <button id="mic_button" title="使用語音搜尋">
+        <span id="mic_icon" class="material-symbols-outlined">mic</span>
+      </button>
+    </div>
+    <div id="end">
+      <button id="vert">
+        <span class="material-symbols-outlined" title="設定">more_vert</span>
+      </button>
+      <button id="login">
+        <span class="material-symbols-outlined">account_circle</span>
+        <span id="login_text">登入</span>
+      </button>
+    </div>
+  </div>
+  <div id="select">
+    <div id="menu">
+      <ul>
+        <li>
+          <span class="material-symbols-outlined">home</span>
+          <span>首頁</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">play_arrow</span>
+          <span>Shorts</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">subscriptions</span>
+          <span>訂閱內容</span>
+        </li>
+        <hr>
+        <li>
+          <span class="material-symbols-outlined">account_circle</span>
+          <span>個人中心</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">history</span>
+          <span>觀看紀錄</span>
+        </li>
+        <hr>
+        <span class="text">登入帳戶即可對影片表示喜歡、發<br>布留言及訂閱頻道。</span>
+        <button id="menu_login">
+          <span class="material-symbols-outlined">account_circle</span>
+          <span id="menu_login_text">登入</span>
+        </button>
+
+        <hr>
+        <li style="background: transparent; cursor: default;">探索</li>
+        <li>
+          <span class="material-symbols-outlined">music_note</span>
+          <span>音樂</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">movie</span>
+          <span>電影</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">podcasts</span>
+          <span>直播</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">sports_esports</span>
+          <span>遊戲</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">feed</span>
+          <span>新聞</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">emoji_events</span>
+          <span>體育</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">school</span>
+          <span>課程</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">podcasts</span>
+          <span>Podcast</span>
+        </li>
+        <hr>
+        <li style="background: transparent; cursor: default;">更多YOUTUBE功能</li>
+        <li>
+          <img src="./images/youtube_premium.svg" alt="YouTube Music" width="24" height="24">
+          <span>YouTube Premium</span>
+        </li>
+        <li>
+          <img src="./images/youtube_music.svg" alt="YouTube Music" width="24" height="24">
+          <span>YouTube Music</span>
+        </li>
+        <li>
+          <img src="./images/youtube_premium.svg" alt="YouTube Kids" width="24" height="24">
+          <span>YouTube Kids</span>
+        </li>
+        <hr>
+        <li>
+          <span class="material-symbols-outlined">settings</span>
+          <span>設定</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">flag</span>
+          <span>檢舉記錄</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">help</span>
+          <span>說明</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">feedback</span>
+          <span>提供意見</span>
+        </li>
+        <hr>
+        <span class="text">
+          簡介 媒體 著作權 與我們聯絡 創作者 廣告 開發人員
+        </span>
+        <span class="text">
+          條款 隱私權 政策與安全性 YouTube 運作方式 測試新功能
+        </span>
+        <span class="text">
+          &copy; 2025 Google LLC
+        </span>
+      </ul>
+
+    </div>
+    <div id="container">
+      <div id="list">
+        <button>全部</button>
+        <button>新聞</button>
+        <button>Podcast</button>
+        <button>直播中</button>
+        <button>音樂</button>
+        <button>遊戲</button>
+        <button>旅遊勝地</button>
+        <button>寵物</button>
+        <button>最新上傳</button>
+      </div>
+      <div class="content">
+        <div class="card">
+          <img src="./images/IMG_001.jpg" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">重生為麵攤老闆，這一世重回到巔峰</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 1 分鐘前</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_002.jpg" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">微軟大戰代碼</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 58 分鐘前</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_004.jpg" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">字體設定</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 30 分鐘前</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_005.jpg" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">處理不完的BUG</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 42 分鐘前</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_007.jpg" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">誤刪程式</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 2 小時前</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_006.JPG" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">嚴重</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 10 小時前</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="short-row">
+          <h2>
+            <span class="material-symbols-outlined">play_arrow</span>
+            <span>Shorts</span>
+          </h2>
+          <div class="short_img">
+            <img src="./images/IMG_008.jpg">
+            <img src="./images/IMG_003.jpg">
+            <img src="./images/IMG_009.jpg">
+            <img src="./images/IMG_010.jpg">
+            <img src="./images/IMG_012.png">
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_011.jpg" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">買完就套牢</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 18 小時前</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_013.png" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">剛買的股票</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 1 年前</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./images/IMG_014" class="channel-picture">
+          <div class="video-info">
+            <img src="./images/Visual_Studio_Code_1.35_icon.png" class="channel-icon">
+            <div class="text-info">
+              <h3 class="title">空軍變燃料</h3>
+              <p class="channel">11作業</p>
+              <p class="visited">觀看次數： 0 次 • 1 年前</p>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
